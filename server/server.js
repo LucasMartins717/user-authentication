@@ -1,21 +1,20 @@
 const express = require('express');
+const cors = require('cors')
+const db = require('./db');
+
 const app = express();
-const pool = require('./db');
-
-app.listen(3000, () => {
-    console.log("server iniciado!")
-})
-
-app.get('/', (req, res) =>
-    res.send('<h1 style="color: blue">Criando um servidor!</h1>')
-)
+app.use(cors());
 
 app.get('/users', async (req, res) => {
-    try {
-        const result = await pool.query('SELECT * FROM users');
+    try{
+        const result = await db.query('SELECT * FROM users');
         res.json(result.rows);
-    } catch (error) {
-        console.log("Erro: " + error);
-        res.status(500).send('Erro ao buscar usuarios!')
+    }catch(err){
+        console.log("DB error: " + err)
+        res.status(500).send('Server error!');
     }
+})
+
+app.listen(3030, () => {
+    console.log("Server running, port 3030")
 })

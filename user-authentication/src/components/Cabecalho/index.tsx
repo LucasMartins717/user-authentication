@@ -1,57 +1,77 @@
 import { FC } from "react";
-import { FaRegHeart, FaRegUserCircle } from "react-icons/fa";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-const DivHeader = styled.header`
-    display: flex;
-    justify-content: space-between;
-    padding: 0.4em 10em;
-    width: 100%;
-    background-color: #a2af89;
-`
-const DivLogo = styled.div`
-    display: flex;
-`
-const NavItens = styled.nav`
+const HeaderContainer = styled.header`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 60%;
+    padding: 1em 2em;
+`
+const NavLinks = styled.nav`
+    display: flex;
+    align-items: center;
+    gap: 6em;
 
-    .link{
-        color: #585858;
-        font-weight: 700;
+    h1{
+        font-size: 3em;
+        color: white;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    ul{
+        display: flex;
+        justify-content: start;
+        list-style: none;
+        gap: 20%;
+        color: #e4e4e4;
+    }
+
+    li{
+        display: flex;
         font-size: 1.5em;
-        text-decoration: none;
+        font-weight: 700;
+        cursor: pointer;
+        user-select: none;
     }
 `
-const UserLogin = styled.div`
+const DivButtons = styled.div`
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 5%;
+    gap: 1em;
+
+    button{
+        font-size: 1.2em;
+        padding: 0.3em 0.8em;
+        border-radius: 0.2em;
+        border: 1px solid #ffffff16;
+        background: linear-gradient(135deg, #181818, #2c2c2c );
+        color: white;
+        cursor: pointer;
+        user-select: none;
+    }
 `
 
 const Cabecalho: FC = () => {
     return (
-        <DivHeader>
-            <DivLogo>
-                <h1>LoginTest</h1>
-            </DivLogo>
+        <HeaderContainer>
 
-            <NavItens>
-                <Link to={'/framboesa'} className="link">Framboesa</Link>
-                <Link to={'/julipoeira'} className="link">Pulipoeira</Link>
-                <Link to={'/tikolake'} className="link">Fikotake</Link>
-                <Link to={'/manufatura'} className="link">Manufatura</Link>
-            </NavItens>
+            <NavLinks>
+                <h1>Authentication</h1>
 
-            <UserLogin>
-                <h3><FaRegHeart /></h3>
-                <Link to={'/login'}><FaRegUserCircle size={40}/></Link>
-            </UserLogin>
-        </DivHeader>
+                <ul>
+                    <li>Products</li>
+                    <li>Developers</li>
+                    <li>Company</li>
+                    <li>Pricing</li>
+                </ul>
+            </NavLinks>
+
+            <DivButtons>
+                <button>Login</button>
+                <button>Sign in</button>
+            </DivButtons>
+
+        </HeaderContainer>
     )
 }
 
