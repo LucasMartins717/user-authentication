@@ -1,5 +1,4 @@
 import { FC } from "react";
-import Cabecalho from "../../components/Cabecalho";
 import { useUserContexto } from "../../context/contexto";
 
 const Inicio: FC = () => {
@@ -8,13 +7,13 @@ const Inicio: FC = () => {
 
     return (
         <>
-            <Cabecalho />
+            <h1>asdf</h1>
 
             {users.map((user) => (
-                <>
-                    <h1>{user.id}</h1>
-                    <h1>{user.username}</h1>
-                </>
+            <div>
+                <h1>{user.id}</h1>
+                <h1>{user.username}</h1>
+            </div>    
             ))}
         </>
     )

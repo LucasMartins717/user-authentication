@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const HeaderContainer = styled.header`
@@ -45,9 +46,13 @@ const DivButtons = styled.div`
         border-radius: 0.2em;
         border: 1px solid #ffffff16;
         background: linear-gradient(135deg, #181818, #2c2c2c );
-        color: white;
         cursor: pointer;
         user-select: none;
+        
+        .link{
+            text-decoration: none;
+            color: white;
+        }
     }
 `
 
@@ -67,8 +72,8 @@ const Cabecalho: FC = () => {
             </NavLinks>
 
             <DivButtons>
-                <button>Login</button>
-                <button>Sign in</button>
+                <button><Link to="/login" className="link">Login</Link></button>
+                <button><Link to="/register" className="link">Sign Up</Link></button>
             </DivButtons>
 
         </HeaderContainer>
