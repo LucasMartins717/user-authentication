@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import styled from "styled-components";
 
 const MainContainer = styled.main`
@@ -58,6 +58,7 @@ const DivFormulario = styled.div`
             top: -20px;
             left: 0;
             font-size: 1em;
+            color: #C0392B;
         }
     }
 
@@ -84,10 +85,16 @@ const DivButton = styled.div`
         user-select: none;
         background-color: #303030;
         color: #C0392B;
+        cursor: pointer;
     }
 `
 
 const Registro: FC = () => {
+
+    const [inputUsername, setInputUsername] = useState<string>('');
+    const [inputPassword, setInputPassword] = useState<string>('');
+    const [inputConfirmPassword, setInputConfirmPassword] = useState<string>('');
+
     return (
         <MainContainer>
             <SectionRegister>
@@ -98,17 +105,17 @@ const Registro: FC = () => {
                 <DivFormulario>
 
                     <div className="inputForm">
-                        <input type="text" placeholder=""/>
+                        <input type="text" value={inputUsername} onChange={(e) => setInputUsername(e.target.value)} placeholder=""/>
                         <label>Username</label>
                     </div>
 
                     <div className="inputForm">
-                        <input type="text" placeholder=""/>
+                        <input type="password" value={inputPassword} onChange={(e) => setInputPassword(e.target.value)} placeholder=""/>
                         <label>Password</label>
                     </div>
 
                     <div className="inputForm">
-                        <input type="text" placeholder=""/>
+                        <input type="passworda" value={inputConfirmPassword} onChange={(e) => setInputConfirmPassword(e.target.value)} placeholder=""/>
                         <label>Confirm Password</label>
                     </div>
 
