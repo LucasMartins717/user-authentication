@@ -95,6 +95,22 @@ const Registro: FC = () => {
     const [inputPassword, setInputPassword] = useState<string>('');
     const [inputConfirmPassword, setInputConfirmPassword] = useState<string>('');
 
+    const formValidation = () => {
+        if(!inputUsername || !inputPassword || !inputConfirmPassword){
+
+        }
+
+        if(inputPassword !== inputConfirmPassword){
+
+        }
+
+        if(inputPassword.length < 8){
+
+        }
+
+        return null;
+    }
+
     return (
         <MainContainer>
             <SectionRegister>

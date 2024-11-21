@@ -10,10 +10,10 @@ const Inicio: FC = () => {
             <h1>asdf</h1>
 
             {users.map((user) => (
-            <div>
-                <h1>{user.id}</h1>
-                <h1>{user.username}</h1>
-            </div>    
+                <div>
+                    <h1>{user.id}</h1>
+                    <h1>{user.username}</h1>
+                </div>
             ))}
         </>
     )
