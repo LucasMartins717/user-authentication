@@ -41,6 +41,13 @@ const DivFormulario = styled.div`
     .inputForm{
         position: relative;
         margin-bottom: 1.2em;
+
+        h5{
+            position: absolute;
+            top: 2em;
+            color: red;
+            font-size: 0.9em;
+        }
     }
 
     input{
@@ -94,19 +101,35 @@ const Registro: FC = () => {
     const [inputUsername, setInputUsername] = useState<string>('');
     const [inputPassword, setInputPassword] = useState<string>('');
     const [inputConfirmPassword, setInputConfirmPassword] = useState<string>('');
+    const [usernameError, setUsernameError] = useState<string>('');
+    const [passwordError, setPasswordError] = useState<string>('');
+    const [confirmPasswordError, setConfirmPasswordError] = useState<string>('');
 
     const formValidation = () => {
-        if(!inputUsername || !inputPassword || !inputConfirmPassword){
-
+        if (!inputUsername) {
+            setUsernameError('Por favor, preencha o nome de usuário!');
+        } else {
+            setUsernameError('');
         }
 
-        if(inputPassword !== inputConfirmPassword){
-
+        if (!inputPassword) {
+            setPasswordError('Digite uma senha!');
+        } else {
+            setPasswordError('');
         }
 
-        if(inputPassword.length < 8){
-
+        if (inputPassword.length > 8 && inputPassword !== inputConfirmPassword) {
+            setConfirmPasswordError('As senhas não conferem!');
+        } else {
+            setConfirmPasswordError('');
         }
+
+        if (inputPassword.length < 8) {
+            setPasswordError('A senha tem que ter mais de 8 caracteres!');
+        } else {
+            setPasswordError('');
+        }
+
 
         return null;
     }
@@ -121,23 +144,26 @@ const Registro: FC = () => {
                 <DivFormulario>
 
                     <div className="inputForm">
-                        <input type="text" value={inputUsername} onChange={(e) => setInputUsername(e.target.value)} placeholder=""/>
+                        <input type="text" value={inputUsername} onChange={(e) => setInputUsername(e.target.value)} placeholder="" />
                         <label>Username</label>
+                        {usernameError && <h5>{usernameError}</h5>}
                     </div>
 
                     <div className="inputForm">
-                        <input type="password" value={inputPassword} onChange={(e) => setInputPassword(e.target.value)} placeholder=""/>
+                        <input type="password" value={inputPassword} onChange={(e) => setInputPassword(e.target.value)} placeholder="" />
                         <label>Password</label>
+                        {passwordError && <h5>{passwordError}</h5>}
                     </div>
 
                     <div className="inputForm">
-                        <input type="passworda" value={inputConfirmPassword} onChange={(e) => setInputConfirmPassword(e.target.value)} placeholder=""/>
+                        <input type="passworda" value={inputConfirmPassword} onChange={(e) => setInputConfirmPassword(e.target.value)} placeholder="" />
                         <label>Confirm Password</label>
+                        {confirmPasswordError && <h5>{confirmPasswordError}</h5>}
                     </div>
 
                 </DivFormulario>
                 <DivButton>
-                    <button>Confirm</button>
+                    <button onClick={() => formValidation()}>Confirm</button>
                 </DivButton>
             </SectionRegister>
         </MainContainer>
