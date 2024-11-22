@@ -5,6 +5,7 @@ import NaoEncontrada from "./pages/NaoEncontrada";
 import { ContextoProvider } from "./context/contexto";
 import Cabecalho from "./components/Cabecalho";
 import Registro from "./pages/Registro";
+import Login from "./pages/Login";
 
 const AppRoutes: FC = () => {
     return (
@@ -14,6 +15,7 @@ const AppRoutes: FC = () => {
                 <Routes>
                     <Route path="/" element={<Inicio />} />
                     <Route path="/register" element={<Registro />} />
+                    <Route path="/login" element={<Login />} />
                     <Route path="*" element={<NaoEncontrada />} />
                 </Routes>
             </ContextoProvider>

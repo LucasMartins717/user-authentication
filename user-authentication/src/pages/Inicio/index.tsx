@@ -1,21 +1,35 @@
 import { FC } from "react";
 import { useUserContexto } from "../../context/contexto";
+import styled from "styled-components";
+import Post from "../../components/Post";
+
+const MainContainer = styled.main`
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+`
+const FiltersSection = styled.section`
+    
+`
+const PostsSection = styled.section`
+    display: flex;
+    justify-content: center;
+`
 
 const Inicio: FC = () => {
 
     const { users } = useUserContexto();
 
     return (
-        <>
-            <h1>asdf</h1>
+        <MainContainer>
+            <FiltersSection>
 
-            {users.map((user) => (
-                <div>
-                    <h1>{user.id}</h1>
-                    <h1>{user.username}</h1>
-                </div>
-            ))}
-        </>
+            </FiltersSection>
+
+            <PostsSection>
+                <Post />
+            </PostsSection>
+        </MainContainer>
     )
 }
 

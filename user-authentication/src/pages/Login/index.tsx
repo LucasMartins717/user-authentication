@@ -1,4 +1,5 @@
 import { FC, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const MainContainer = styled.main`
@@ -13,7 +14,7 @@ const MainContainer = styled.main`
 const SectionRegister = styled.section`
     position: relative;
     width: 30em;
-    height: 30em;
+    height: 25em;
     background-color: #2E2E2E;
     border-radius: 0.5em;
     border: 1px solid #00000081;
@@ -96,16 +97,15 @@ const DivButton = styled.div`
     }
 `
 
-const Registro: FC = () => {
+const Login: FC = () => {
 
     const [inputUsername, setInputUsername] = useState<string>('');
     const [inputPassword, setInputPassword] = useState<string>('');
-    const [inputConfirmPassword, setInputConfirmPassword] = useState<string>('');
     const [usernameError, setUsernameError] = useState<string>('');
     const [passwordError, setPasswordError] = useState<string>('');
-    const [confirmPasswordError, setConfirmPasswordError] = useState<string>('');
+    const navigate = useNavigate();
 
-    const formValidation = async () => {
+    const loginValidation = async () => {
 
         let temErro: boolean = false;
 
@@ -114,32 +114,6 @@ const Registro: FC = () => {
             temErro = true;
         } else {
             setUsernameError('');
-
-
-            try {
-                const response = await fetch('http://localhost:3030/check-username', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ username: inputUsername }),
-                });
-
-                const checkData = await response.json();
-
-                if (!response.ok) {
-                    setUsernameError(checkData.message);
-                    temErro = true;
-                } else {
-                    setUsernameError('');
-                }
-
-            } catch (err) {
-                console.log('Erro ao verificar nome de usuario: ' + err);
-                temErro = true;
-                setUsernameError('Erro ao verificar nome de usuario');
-            }
-
         }
 
         if (!inputPassword) {
@@ -149,47 +123,29 @@ const Registro: FC = () => {
             setPasswordError('');
         }
 
-        if (inputPassword !== inputConfirmPassword) {
-            setConfirmPasswordError('As senhas não conferem!');
-            temErro = true;
-        } else {
-            setConfirmPasswordError('');
-        }
-
-        if (inputPassword.length < 8) {
-            setPasswordError('A senha tem que ter mais de 8 caracteres!');
-            temErro = true;
-        } else {
-            setPasswordError('');
-        }
-
         if (!temErro) {
-            await registerUser();
-        }
-    }
+            try{
+                const response = await fetch('http://localhost:3030/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({username: inputUsername, password: inputPassword}),
+                });
 
-    const registerUser = async () => {
+                const data = await response.json();
 
-        try {
-            const response = await fetch('http://localhost:3030/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    username: inputUsername,
-                    password: inputPassword,
-                }),
-            });
-
-            const data = await response.json();
-
-            if (!response.ok) {
-                console.log(data.message);
+                if(response.ok){
+                    localStorage.setItem('token', data.token);
+                    navigate('/')
+                }else{
+                    setPasswordError(data.message);
+                    temErro = true;
+                }
+            }catch(err){
+                console.error('Login failed: ' + err);
+                setPasswordError('Server connection error!');
             }
-
-        } catch (err) {
-            console.log('Erro ao criar o usuario: ' + err);
         }
     }
 
@@ -198,7 +154,7 @@ const Registro: FC = () => {
             <SectionRegister>
                 <DivTitulo>
                     <div className="titleLeftBorder"></div>
-                    <h1>Register</h1>
+                    <h1>Login</h1>
                 </DivTitulo>
                 <DivFormulario>
 
@@ -214,19 +170,13 @@ const Registro: FC = () => {
                         {passwordError && <h5>{passwordError}</h5>}
                     </div>
 
-                    <div className="inputForm">
-                        <input type="password" value={inputConfirmPassword} onChange={(e) => setInputConfirmPassword(e.target.value)} placeholder="" />
-                        <label>Confirm Password</label>
-                        {confirmPasswordError && <h5>{confirmPasswordError}</h5>}
-                    </div>
-
                 </DivFormulario>
                 <DivButton>
-                    <button onClick={() => formValidation()}>Confirm</button>
+                    <button onClick={() => loginValidation()}>Confirm</button>
                 </DivButton>
             </SectionRegister>
         </MainContainer>
     )
 }
 
-export default Registro;
+export default Login;
