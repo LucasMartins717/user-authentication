@@ -106,32 +106,66 @@ const Registro: FC = () => {
     const [confirmPasswordError, setConfirmPasswordError] = useState<string>('');
 
     const formValidation = () => {
+
+        let temErro: boolean = false;
+
         if (!inputUsername) {
             setUsernameError('Por favor, preencha o nome de usuário!');
+            temErro = true;
         } else {
             setUsernameError('');
         }
 
         if (!inputPassword) {
             setPasswordError('Digite uma senha!');
+            temErro = true;
         } else {
             setPasswordError('');
         }
 
-        if (inputPassword.length > 8 && inputPassword !== inputConfirmPassword) {
+        if (inputPassword !== inputConfirmPassword) {
             setConfirmPasswordError('As senhas não conferem!');
+            temErro = true;
         } else {
             setConfirmPasswordError('');
         }
 
         if (inputPassword.length < 8) {
             setPasswordError('A senha tem que ter mais de 8 caracteres!');
+            temErro = true;
         } else {
             setPasswordError('');
         }
 
 
-        return null;
+        if (!temErro) {
+            registerUser();
+        }
+    }
+
+    const registerUser = async () => {
+
+        try {
+            const response = await fetch('http://localhost:3030/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: inputUsername,
+                    password: inputPassword,
+                }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                console.log(data.message);
+            }
+
+        } catch (err) {
+            console.log('Erro ao criar o usuario: ' + err);
+        }
     }
 
     return (
@@ -156,7 +190,7 @@ const Registro: FC = () => {
                     </div>
 
                     <div className="inputForm">
-                        <input type="passworda" value={inputConfirmPassword} onChange={(e) => setInputConfirmPassword(e.target.value)} placeholder="" />
+                        <input type="password" value={inputConfirmPassword} onChange={(e) => setInputConfirmPassword(e.target.value)} placeholder="" />
                         <label>Confirm Password</label>
                         {confirmPasswordError && <h5>{confirmPasswordError}</h5>}
                     </div>
