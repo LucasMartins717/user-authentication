@@ -6,10 +6,12 @@ const DivContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: green;
     width: 20em;
     min-height: 5em;
-    padding: 0.3em 0.5em;
+    border: 1px solid black;
+    border-radius: 0.5em;
+    background-color: #f1f1f1;
+    padding: 0.3em 0.5em 0.67em;
 `
 const DivHeader = styled.div`
     display: flex;
@@ -30,8 +32,15 @@ const DivHeader = styled.div`
     
 `
 const DivText = styled.div`
-    
-`
+    p {
+        font-size: 1.2em;
+        line-height: 1.5em;
+        background: linear-gradient(transparent calc(1.5em - 2px), black 2px) repeat-y;
+        background-size: 100% 1.5em;
+    }
+`;
+
+
 
 const Post: FC = () => {
     return (
@@ -42,7 +51,7 @@ const Post: FC = () => {
             </DivHeader>
 
             <DivText>
-
+                <p>aqui ficara o texto tlg parça? o bagulo é louco parceiro dsfgddg  uvig  yugyug yug iyug g8ysadf8gasdfoyg 8gyo 8uogsadf8yuog  sd8ougyuog asdfyuog   asdfi hsdfiuh asdf  asdf uiph asdfuiph sdf</p>
             </DivText>
         </DivContainer>
     )
