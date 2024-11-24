@@ -13,11 +13,13 @@ const NavLinks = styled.nav`
     align-items: center;
     gap: 6em;
 
-    h1{
+    .headerTitle{
+        font-weight: 700;
         font-size: 3em;
         color: white;
         cursor: pointer;
         user-select: none;
+        text-decoration: none;
     }
 
     ul{
@@ -61,7 +63,7 @@ const Cabecalho: FC = () => {
         <HeaderContainer>
 
             <NavLinks>
-                <h1>Authentication</h1>
+                <Link to={'/'} className="headerTitle">Authentication</Link>
 
                 <ul>
                     <li>Products</li>

@@ -11,6 +11,7 @@ const DivContainer = styled.div`
     border: 1px solid black;
     border-radius: 0.5em;
     background-color: #f1f1f1;
+    margin-bottom: 1em;
     padding: 0.3em 0.5em 0.67em;
 `
 const DivHeader = styled.div`
