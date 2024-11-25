@@ -13,6 +13,7 @@ export const ContextoProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
     const [users, setUsers] = useState<interfaceContexto['users']>([]);
 
+    // GET USERS DATA
     useEffect(() => {
         const fetchUser = async () => {
             try {

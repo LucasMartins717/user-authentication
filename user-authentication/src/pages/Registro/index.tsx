@@ -1,4 +1,6 @@
 import { FC, useState } from "react";
+import { RiArrowGoBackFill } from "react-icons/ri";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const MainContainer = styled.main`
@@ -6,18 +8,42 @@ const MainContainer = styled.main`
     justify-content: center;
     align-items: center;
     position: absolute;
-    top: 53%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
+    width: 100%;
+    height: 100%;
+    padding: 1.4em 1.5em;
+`
+const DivGoBack = styled.div`
+    position: absolute;
+    top: 0;
+    padding: 1.4em 1.5em;
+
+    button{
+        width: 100%;
+        padding: 0.4em 0.4em 0.2em;
+        background: linear-gradient( 143deg, #404040, #262926);
+        border: 1px solid black;
+        border-radius: 0.4em;
+        text-decoration: none;
+        text-align: center;
+        color: white;
+    };
+
+    .goBackButton{
+        text-decoration: none;
+        color: white;
+    }
 `
 const SectionRegister = styled.section`
     position: relative;
-    width: 30em;
+    width: 100%;
     height: 30em;
     background-color: #2E2E2E;
     border-radius: 0.5em;
     border: 1px solid #00000081;
-    padding: 3em 3em 0.5em 3em;
+    padding: 3em 10% 0.5em 10%;
 `
 const DivTitulo = styled.div`
     h1{
@@ -56,7 +82,7 @@ const DivFormulario = styled.div`
         border: none;
         border-bottom: 0.1em solid #C0392B;
         background: none;
-        font-size: 1.4em;
+        font-size: clamp(1.1em, 1.1em + 1vw, 3em);
         outline: none;
         color: #cf624f;
 
@@ -72,8 +98,8 @@ const DivFormulario = styled.div`
     label{
         position: absolute;
         left: 0;
-        top: -10px;
-        font-size: 1.6em;
+        top: -3px;
+        font-size: clamp(1.2em, 1.2em + 1.2vw, 3em);
         font-weight: 500;
         transition: all 0.2s ease-in;
         pointer-events: none;
@@ -195,6 +221,11 @@ const Registro: FC = () => {
 
     return (
         <MainContainer>
+
+            <DivGoBack>
+                <button> <Link to={'/'} className="goBackButton"><RiArrowGoBackFill size={50} /></Link> </button>
+            </DivGoBack>
+
             <SectionRegister>
                 <DivTitulo>
                     <div className="titleLeftBorder"></div>

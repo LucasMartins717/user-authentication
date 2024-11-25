@@ -6,11 +6,11 @@ const DivContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 20em;
+    width: 100%;
     min-height: 5em;
     border: 1px solid black;
     border-radius: 0.5em;
-    background-color: #f1f1f1;
+    background: linear-gradient(180deg, #f1f1f1, #ffffffe8);
     margin-bottom: 1em;
     padding: 0.3em 0.5em 0.67em;
 `
@@ -36,10 +36,13 @@ const DivText = styled.div`
     p {
         font-size: 1.2em;
         line-height: 1.5em;
-        background: linear-gradient(transparent calc(1.5em - 2px), black 2px) repeat-y;
+        margin: 0;
+        background: linear-gradient(transparent calc(1.5em - 2px), black 2px) repeat-y; 
         background-size: 100% 1.5em;
+        background-position: 0 1.4em;
     }
 `;
+
 
 
 

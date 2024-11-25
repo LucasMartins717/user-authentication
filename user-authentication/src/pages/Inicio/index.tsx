@@ -2,28 +2,57 @@ import { FC } from "react";
 import { useUserContexto } from "../../context/contexto";
 import styled from "styled-components";
 import Post from "../../components/Post";
+import { Link } from "react-router-dom";
+import { FaUserCircle } from "react-icons/fa";
+import { GoPlusCircle } from "react-icons/go";
+import CriarPost from "../../components/CriarPost";
 
 const MainContainer = styled.main`
     display: flex;
     flex-direction: column;
-    padding: 1em 2em;
+    padding: 1.4em 1.5em;
     height: 100%;
 `
-const FiltersSection = styled.section`
+const LoginSection = styled.section`
     display: flex;
-    gap: 2em;
+    flex-direction: column;
+    gap: 0.4em;
 
-    .filterItem{
-        display: flex;
-        gap: 0.5em;
+    .userLink{
+        width: 100%;
+        padding: 0.4em;
+        background: linear-gradient( 143deg, #404040, #262926);
+        border: 1px solid black;
+        border-radius: 0.4em;
+        text-decoration: none;
+        text-align: center;
+        font-size: 1.5em;
+        color: white;
+    }
+`
+const UsersSection = styled.section`
+    display: none;
+    justify-content: space-between;
+    align-items: end;
+    border-bottom: 2px solid #f1f1f1;
+    padding-bottom: 0.2em;
+    color: white;
+
+    h2{
+        font-size: 2em;
+        margin-bottom: -0.2em;
+    }
+    
+    button{
+        background: none;
+        border: none;
+        margin-bottom: -0.37em;
     }
 `
 const PostsSection = styled.section`
     display: flex;
-    justify-content: space-between;
     flex-wrap: wrap;
-    gap: 3.4%;
-    margin-top: 3em;
+    margin-top: 1.5em;
 `
 
 const Inicio: FC = () => {
@@ -32,30 +61,23 @@ const Inicio: FC = () => {
 
     return (
         <MainContainer>
-            <FiltersSection>
+            <CriarPost />
+            <LoginSection>
+                <Link to={'/register'} className="userLink">Sign Up</Link>
+                <Link to={'/login'} className="userLink">Login</Link>
+            </LoginSection>
 
-                <div className="filterItem">
-                    <label htmlFor="date">Data</label>
-                    <select name="date" id="date">
-                        <option value="nova-pra-antiga">Nova pra antiga</option>
-                        <option value="antiga-pra-nova">Antiga pra nova</option>
-                    </select>
-                </div>
-
-                <div className="filterItem">
-                    <label htmlFor="alphabetic">Alfabetica</label>
-                    <select name="alphabetic" id="alphabetic">
-                        <option value="a-z">A-Z</option>
-                        <option value="z-a">Z-A</option>
-                    </select>
-                </div>
-
-            </FiltersSection>
+            <UsersSection>
+                <FaUserCircle color="white" size={39} />
+                <h2>Juanilson</h2>
+                <button><GoPlusCircle color="white" size={39} /></button>
+            </UsersSection>
 
             <PostsSection>
-
                 <Post />
-
+                <Post />
+                <Post />
+                <Post />
             </PostsSection>
         </MainContainer>
     )
