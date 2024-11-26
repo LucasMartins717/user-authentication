@@ -1,10 +1,9 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { useUserContexto } from "../../context/contexto";
 import styled from "styled-components";
 import Post from "../../components/Post";
 import { Link } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
-import { GoPlusCircle } from "react-icons/go";
 import CriarPost from "../../components/CriarPost";
 
 const MainContainer = styled.main`
@@ -31,7 +30,7 @@ const LoginSection = styled.section`
     }
 `
 const UsersSection = styled.section`
-    display: none;
+    display: flex;
     justify-content: space-between;
     align-items: end;
     border-bottom: 2px solid #f1f1f1;
@@ -42,12 +41,6 @@ const UsersSection = styled.section`
         font-size: 2em;
         margin-bottom: -0.2em;
     }
-    
-    button{
-        background: none;
-        border: none;
-        margin-bottom: -0.37em;
-    }
 `
 const PostsSection = styled.section`
     display: flex;
@@ -57,21 +50,21 @@ const PostsSection = styled.section`
 
 const Inicio: FC = () => {
 
-    const { users } = useUserContexto();
+    const { isLogged } = useUserContexto();
 
     return (
         <MainContainer>
-            <CriarPost />
-            <LoginSection>
+
+            {!isLogged && <LoginSection>
                 <Link to={'/register'} className="userLink">Sign Up</Link>
                 <Link to={'/login'} className="userLink">Login</Link>
-            </LoginSection>
+            </LoginSection>}
 
-            <UsersSection>
+            {isLogged && <UsersSection>
                 <FaUserCircle color="white" size={39} />
                 <h2>Juanilson</h2>
-                <button><GoPlusCircle color="white" size={39} /></button>
-            </UsersSection>
+                <CriarPost />
+            </UsersSection>}
 
             <PostsSection>
                 <Post />

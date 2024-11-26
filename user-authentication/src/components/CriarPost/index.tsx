@@ -1,6 +1,15 @@
-import { FC, useRef } from "react";
+import { FC, useRef, useState } from "react";
+import { GoPlusCircle } from "react-icons/go";
 import styled from "styled-components";
 
+const ButtonCreate = styled.div`
+    button{
+        display: flex;
+        background: none;
+        border: none;
+        margin-bottom: -0.14em;
+    }
+`
 const DivContainer = styled.div`
     display: flex;
     flex-direction: column;
@@ -16,6 +25,10 @@ const DivContainer = styled.div`
     border-radius: 0.4em;
     padding-bottom: 0.4em;
     gap: 0.4em;
+
+    h2{
+        color: black
+    }
 
     hr{
         background-color: black;
@@ -49,6 +62,7 @@ const BackgroundColor = styled.div`
 
 const CriarPost: FC = () => {
 
+    const [painelAtivo, setPainelAtivo] = useState<boolean>(false);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
     const responsiveTextarea = () => {
@@ -60,13 +74,20 @@ const CriarPost: FC = () => {
 
     return (
         <>
-            <BackgroundColor />
-            <DivContainer>
-                <h2>Write the post...</h2>
-                <hr />
-                <textarea ref={textareaRef} onChange={() => responsiveTextarea()}></textarea>
-                <button>create</button>
-            </DivContainer>
+            <ButtonCreate>
+                <button onClick={() => setPainelAtivo(true)}><GoPlusCircle color="white" size={39} /></button>
+            </ButtonCreate>
+            {painelAtivo &&
+                <>
+                    <BackgroundColor onClick={() => setPainelAtivo(false)}/>
+                    <DivContainer>
+                        <h2>Write the post...</h2>
+                        <hr />
+                        <textarea ref={textareaRef} onChange={() => responsiveTextarea()}></textarea>
+                        <button>create</button>
+                    </DivContainer>
+                </>
+            }
         </>
     )
 }

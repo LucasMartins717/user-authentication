@@ -1,9 +1,13 @@
-import axios from "axios";
 import { createContext, FC, ReactNode, useContext, useEffect, useState } from "react";
 
 interface interfaceContexto {
-    users: { id: number, username: string }[];
-    setUsers: (users: { id: number, username: string }[]) => void;
+    users: { username: string, token: string } | null;
+    setUsers: (users: { username: string, token: string } | null) => void;
+    isLogged: boolean;
+    setIsLogged: (isLogged: boolean) => void;
+
+    loginUser: (userdata: {username: string, token: string}) => void;
+    logoutUser: () => void;
 }
 
 export const Contexto = createContext<interfaceContexto | null>(null);
@@ -11,26 +15,40 @@ Contexto.displayName = "usersContext";
 
 export const ContextoProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
-    const [users, setUsers] = useState<interfaceContexto['users']>([]);
+    const [users, setUsers] = useState<interfaceContexto['users'] | null>(null);
+    const [isLogged, setIsLogged] = useState<interfaceContexto['isLogged']>(false);
 
-    // GET USERS DATA
     useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                const response = await axios.get<interfaceContexto['users']>('http://localhost:3030/users');
-                setUsers(response.data);
-            } catch (err) {
-                console.error('Error trying to connect API: ' + err)
-            }
+        const storageUser = localStorage.getItem('userData');
+        if(storageUser){
+            const user = JSON.parse(storageUser);
+            setUsers(user);
+            setIsLogged(true);
         }
+    }, [])
 
-        fetchUser();
-    }, []);
+    const loginUser = (userData: {username: string, token: string}) => {
+        setIsLogged(true);
+        setUsers(userData);
+        localStorage.setItem('userData', JSON.stringify(userData));
+        console.log('logado!')
+    }
+
+    const logoutUser = () => {
+        setIsLogged(false);
+        setUsers(null);
+        localStorage.removeItem('userData');
+        console.log('deslogado!')
+    }
 
     return (
         <Contexto.Provider value={{
             users,
             setUsers,
+            isLogged,
+            setIsLogged,
+            loginUser,
+            logoutUser,
         }}>
             {children}
         </Contexto.Provider>

@@ -2,6 +2,7 @@ import { FC, useState } from "react";
 import { RiArrowGoBackFill } from "react-icons/ri";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { useUserContexto } from "../../context/contexto";
 
 const MainContainer = styled.main`
     display: flex;
@@ -124,6 +125,8 @@ const DivButton = styled.div`
 
 const Login: FC = () => {
 
+    const {loginUser} = useUserContexto();
+
     const [inputUsername, setInputUsername] = useState<string>('');
     const [inputPassword, setInputPassword] = useState<string>('');
     const [usernameError, setUsernameError] = useState<string>('');
@@ -161,6 +164,7 @@ const Login: FC = () => {
                 const data = await response.json();
 
                 if (response.ok) {
+                    loginUser({username: data.username, token: data.token});
                     localStorage.setItem('token', data.token);
                     navigate('/')
                 } else {
