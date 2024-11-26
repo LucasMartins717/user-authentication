@@ -1,6 +1,7 @@
 import { FC, useRef, useState } from "react";
 import { GoPlusCircle } from "react-icons/go";
 import styled from "styled-components";
+import { useUserContexto } from "../../context/contexto";
 
 const ButtonCreate = styled.div`
     button{
@@ -52,8 +53,8 @@ const DivContainer = styled.div`
 `
 const BackgroundColor = styled.div`
     position: absolute;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     background-color: #000000a2;
     top: 50%;
     left: 50%;
@@ -62,13 +63,43 @@ const BackgroundColor = styled.div`
 
 const CriarPost: FC = () => {
 
+    const {users} = useUserContexto();
     const [painelAtivo, setPainelAtivo] = useState<boolean>(false);
+    const [textDescription, setTextDescription] = useState<string>('');
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
     const responsiveTextarea = () => {
         if (textareaRef.current) {
             textareaRef.current.style.height = 'auto';
             textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`
+        }
+    }
+
+    const publicarPost = async () => {
+
+        if(!textDescription){
+            console.log('Escreva algo na textarea!')
+        }
+
+        try {
+            const response = await fetch('http://localhost:3030/posts', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({userId: users?.id, description: textDescription}),
+            });
+
+            if(!response.ok){
+                throw new Error('Erro ao criar o post!');
+            }
+
+            const data = await response.json();
+            console.log('Post criado com sucesso!' + data);
+            setTextDescription('');
+            setPainelAtivo(false);
+        } catch (err) {
+            console.log('DEU RUIM: ' + err);
         }
     }
 
@@ -79,12 +110,12 @@ const CriarPost: FC = () => {
             </ButtonCreate>
             {painelAtivo &&
                 <>
-                    <BackgroundColor onClick={() => setPainelAtivo(false)}/>
+                    <BackgroundColor onClick={() => setPainelAtivo(false)} />
                     <DivContainer>
                         <h2>Write the post...</h2>
                         <hr />
-                        <textarea ref={textareaRef} onChange={() => responsiveTextarea()}></textarea>
-                        <button>create</button>
+                        <textarea ref={textareaRef} value={textDescription} onChange={(e) => { responsiveTextarea(); setTextDescription(e.target.value) }}></textarea>
+                        <button onClick={() => publicarPost()}>create</button>
                     </DivContainer>
                 </>
             }

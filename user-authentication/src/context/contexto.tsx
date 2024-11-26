@@ -1,12 +1,13 @@
+import { jwtDecode } from "jwt-decode";
 import { createContext, FC, ReactNode, useContext, useEffect, useState } from "react";
 
 interface interfaceContexto {
-    users: { username: string, token: string } | null;
-    setUsers: (users: { username: string, token: string } | null) => void;
+    users: { id: number, username: string, token: string } | null;
+    setUsers: (users: { id: number, username: string, token: string } | null) => void;
     isLogged: boolean;
     setIsLogged: (isLogged: boolean) => void;
 
-    loginUser: (userdata: {username: string, token: string}) => void;
+    loginUser: (userdata: { username: string, token: string }) => void;
     logoutUser: () => void;
 }
 
@@ -20,14 +21,21 @@ export const ContextoProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
     useEffect(() => {
         const storageUser = localStorage.getItem('userData');
-        if(storageUser){
+        if (storageUser) {
             const user = JSON.parse(storageUser);
             setUsers(user);
             setIsLogged(true);
         }
     }, [])
 
-    const loginUser = (userData: {username: string, token: string}) => {
+    const loginUser = (userdata: { username: string, token: string }) => {
+        const decoded: { id: number, username: string } = jwtDecode(userdata.token);
+        const userData = {
+            id: decoded.id,
+            username: decoded.username,
+            token: userdata.token,
+        }
+
         setIsLogged(true);
         setUsers(userData);
         localStorage.setItem('userData', JSON.stringify(userData));

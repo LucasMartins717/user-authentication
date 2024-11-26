@@ -67,13 +67,34 @@ app.post('/login', async (req, res) => {
         const token = jwt.sign({ id: user.id, username: user.username }, process.env.JWT_KEY, {
             expiresIn: '1h'
         });
-        res.json({token});
+        res.json({ token });
     } catch (err) {
         console.log('Erro ao fazer login: ' + err);
         res.status(500).send('Server Error!');
     }
 })
 
+app.post('/posts', async (req, res) => {
+    const { userId, description } = req.body;
+
+    try {
+        const result = await db.query('INSERT INTO posts (user_id, description) VALUES ($1, $2)', [userId, description]);
+        res.status(201).json({ message: 'Post feito com sucesso!' });
+    } catch (err) {
+        res.status(500).json({ message: 'Não foi possivel fazer esse post: ' + err })
+    }
+});
+
+app.get('/posts', async (req, res) => {
+    try {
+        const result = await db.query('SELECT p.id, u.username, p.description, p.created_at FROM posts p JOIN users u ON p.user_id = u.id');
+        res.status(200).json(result.rows);
+    } catch (err) {
+        console.log("Deu erro: " + err);
+        res.status(500).send('Erro ao criar o post!');
+    }
+})
+
 app.listen(3030, () => {
     console.log("Server running, port 3030")
-})
+});

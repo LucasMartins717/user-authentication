@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import { useUserContexto } from "../../context/contexto";
 import styled from "styled-components";
 import Post from "../../components/Post";
