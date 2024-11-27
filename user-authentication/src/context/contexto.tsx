@@ -1,3 +1,4 @@
+import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { createContext, FC, ReactNode, useContext, useEffect, useState } from "react";
 
@@ -6,6 +7,8 @@ interface interfaceContexto {
     setUsers: (users: { id: number, username: string, token: string } | null) => void;
     isLogged: boolean;
     setIsLogged: (isLogged: boolean) => void;
+    posts: { id: number, user_id: number, username: string, description: string, created_at: string }[];
+    setPosts: (posts: { id: number, user_id: number, username: string, description: string, created_at: string }[]) => void;
 
     loginUser: (userdata: { username: string, token: string }) => void;
     logoutUser: () => void;
@@ -17,6 +20,7 @@ Contexto.displayName = "usersContext";
 export const ContextoProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
     const [users, setUsers] = useState<interfaceContexto['users'] | null>(null);
+    const [posts, setPosts] = useState<interfaceContexto['posts']>([]);
     const [isLogged, setIsLogged] = useState<interfaceContexto['isLogged']>(false);
 
     useEffect(() => {
@@ -26,6 +30,19 @@ export const ContextoProvider: FC<{ children: ReactNode }> = ({ children }) => {
             setUsers(user);
             setIsLogged(true);
         }
+    }, [])
+
+    useEffect(() => {
+
+        const fetchPosts = async () => {
+            try {
+                const response = await axios.get<interfaceContexto['posts']>('http://localhost:3030/posts');
+                setPosts(response.data);
+            } catch (err){
+                console.error('DEU ERRO: ' + err);
+            }
+        }
+        fetchPosts();
     }, [])
 
     const loginUser = (userdata: { username: string, token: string }) => {
@@ -57,6 +74,8 @@ export const ContextoProvider: FC<{ children: ReactNode }> = ({ children }) => {
             setIsLogged,
             loginUser,
             logoutUser,
+            posts,
+            setPosts,
         }}>
             {children}
         </Contexto.Provider>

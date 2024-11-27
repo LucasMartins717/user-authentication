@@ -50,7 +50,7 @@ const PostsSection = styled.section`
 
 const Inicio: FC = () => {
 
-    const { isLogged } = useUserContexto();
+    const { isLogged, posts, users } = useUserContexto();
 
     return (
         <MainContainer>
@@ -62,15 +62,14 @@ const Inicio: FC = () => {
 
             {isLogged && <UsersSection>
                 <FaUserCircle color="white" size={39} />
-                <h2>Juanilson</h2>
+                <h2>{users?.username}</h2>
                 <CriarPost />
             </UsersSection>}
 
             <PostsSection>
-                <Post />
-                <Post />
-                <Post />
-                <Post />
+                {posts.map((post) => (
+                    <Post key={post.id} username={post.username} description={post.description} />
+                ))}
             </PostsSection>
         </MainContainer>
     )

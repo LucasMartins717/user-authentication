@@ -49,6 +49,10 @@ const DivContainer = styled.div`
         border-radius: 0.4em;
         background-color: aliceblue;
     }
+
+    h3{
+        color: #fd6f6f;
+    }
     
 `
 const BackgroundColor = styled.div`
@@ -63,9 +67,11 @@ const BackgroundColor = styled.div`
 
 const CriarPost: FC = () => {
 
-    const {users} = useUserContexto();
+    const { users } = useUserContexto();
     const [painelAtivo, setPainelAtivo] = useState<boolean>(false);
     const [textDescription, setTextDescription] = useState<string>('');
+    const [errorDescription, setErrorDescription] = useState<string>('');
+    const [temErro, setTemErro] = useState<boolean>(false);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
     const responsiveTextarea = () => {
@@ -77,8 +83,26 @@ const CriarPost: FC = () => {
 
     const publicarPost = async () => {
 
-        if(!textDescription){
-            console.log('Escreva algo na textarea!')
+        setTemErro(false);
+        setErrorDescription('');
+
+        if (!textDescription) {
+            setErrorDescription('Escreva algo para publicar o post!')
+            setTemErro(true);
+            return;
+        } else {
+            setErrorDescription('');
+            setTemErro(false);
+        }
+
+        const textCaracters = textDescription.split("");
+        if (textCaracters.length > 1000) {
+            setErrorDescription('O post não pode passar de 1000 letras!')
+            setTemErro(true);
+            return;
+        } else {
+            setErrorDescription('')
+            setTemErro(false);
         }
 
         try {
@@ -87,10 +111,10 @@ const CriarPost: FC = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({userId: users?.id, description: textDescription}),
+                body: JSON.stringify({ userId: users?.id, description: textDescription }),
             });
 
-            if(!response.ok){
+            if (!response.ok) {
                 throw new Error('Erro ao criar o post!');
             }
 
@@ -110,10 +134,11 @@ const CriarPost: FC = () => {
             </ButtonCreate>
             {painelAtivo &&
                 <>
-                    <BackgroundColor onClick={() => setPainelAtivo(false)} />
+                    <BackgroundColor onClick={() => {setPainelAtivo(false); setErrorDescription(''); setTemErro(false)}} />
                     <DivContainer>
                         <h2>Write the post...</h2>
                         <hr />
+                        <h3>{errorDescription}</h3>
                         <textarea ref={textareaRef} value={textDescription} onChange={(e) => { responsiveTextarea(); setTextDescription(e.target.value) }}></textarea>
                         <button onClick={() => publicarPost()}>create</button>
                     </DivContainer>

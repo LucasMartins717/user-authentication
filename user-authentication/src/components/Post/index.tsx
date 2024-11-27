@@ -41,21 +41,19 @@ const DivText = styled.div`
         background-size: 100% 1.5em;
         background-position: 0 1.4em;
     }
-`;
+`
 
 
-
-
-const Post: FC = () => {
+const Post: FC<{username: string, description: string}> = ({username, description}) => {
     return (
         <DivContainer>
             <DivHeader>
                 <FaUserCircle className="iconePerfil" size={35}/>
-                <h3>Juanilson</h3>
+                <h3>{username}</h3>
             </DivHeader>
 
             <DivText>
-                <p>aqui ficara o texto tlg parça? o bagulo é louco parceiro dsfgddg  uvig  yugyug yug iyug g8ysadf8gasdfoyg 8gyo 8uogsadf8yuog  sd8ougyuog asdfyuog   asdfi hsdfiuh asdf  asdf uiph asdfuiph sdf</p>
+                <p>{description}</p>
             </DivText>
         </DivContainer>
     )
