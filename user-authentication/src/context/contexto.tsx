@@ -33,7 +33,6 @@ export const ContextoProvider: FC<{ children: ReactNode }> = ({ children }) => {
     }, [])
 
     useEffect(() => {
-
         const fetchPosts = async () => {
             try {
                 const response = await axios.get<interfaceContexto['posts']>('http://localhost:3030/posts');

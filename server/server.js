@@ -59,7 +59,7 @@ app.post('/login', async (req, res) => {
             return res.status(401).json({ message: 'Usuário ou senha incorretos' });
         }
 
-        const correctPassword = bcrypt.compare(password, user.password);
+        const correctPassword = await bcrypt.compare(password, user.password);
         if (!correctPassword) {
             return res.status(401).json({ message: 'Usuário ou senha incorretos' });
         }
@@ -87,7 +87,7 @@ app.post('/posts', async (req, res) => {
 
 app.get('/posts', async (req, res) => {
     try {
-        const result = await db.query('SELECT p.id, u.username, p.description, p.created_at FROM posts p JOIN users u ON p.user_id = u.id');
+        const result = await db.query('SELECT p.id, p.user_id, u.username, p.description, p.created_at FROM posts p JOIN users u ON p.user_id = u.id');
         res.status(200).json(result.rows);
     } catch (err) {
         console.log("Deu erro: " + err);
@@ -95,6 +95,23 @@ app.get('/posts', async (req, res) => {
     }
 })
 
+app.delete('/posts', async (req, res) => {
+    const { postId } = req.body;
+
+    try {
+        const result = await db.query('DELETE FROM posts WHERE id = $1 RETURNING *', [postId]);
+
+        if (result.rowCount > 0) {
+            res.status(204).send();
+        } else {
+            res.status(404).json({ message: 'Post não encontrado' });
+        }
+
+    } catch (err) {
+        res.status(500).json({ message: 'Erro ao deletar o post: ' + err });
+    }
+})
+
 app.listen(3030, () => {
-    console.log("Server running, port 3030")
+    console.log("Server running, port 3030");
 });

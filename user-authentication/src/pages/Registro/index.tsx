@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
 import { RiArrowGoBackFill } from "react-icons/ri";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const MainContainer = styled.main`
@@ -14,6 +14,24 @@ const MainContainer = styled.main`
     width: 100%;
     height: 100%;
     padding: 1.4em 1.5em;
+`
+const DivStatus = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 100%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+    width: 100%;
+    background-color: black;
+    
+    h3{
+        font-size: 4em;
+        color: green;
+    }
 `
 const DivGoBack = styled.div`
     position: absolute;
@@ -130,6 +148,8 @@ const Registro: FC = () => {
     const [usernameError, setUsernameError] = useState<string>('');
     const [passwordError, setPasswordError] = useState<string>('');
     const [confirmPasswordError, setConfirmPasswordError] = useState<string>('');
+    const [statusRegistro, setStatusRegistro] = useState<boolean>(false);
+    const navigate = useNavigate();
 
     const formValidation = async () => {
 
@@ -214,6 +234,18 @@ const Registro: FC = () => {
                 console.log(data.message);
             }
 
+            if (response.ok) {
+                const sucessRegister = () => {
+                    setStatusRegistro(true);
+
+                    const interval = setInterval(() => {
+                        navigate('/login');
+                        clearInterval(interval);
+                    }, 1500);
+                }
+                sucessRegister();
+            }
+
         } catch (err) {
             console.log('Erro ao criar o usuario: ' + err);
         }
@@ -221,6 +253,12 @@ const Registro: FC = () => {
 
     return (
         <MainContainer>
+
+            {statusRegistro &&
+                <DivStatus>
+                    <h3>Sucess!</h3>
+                </DivStatus>
+            }
 
             <DivGoBack>
                 <button> <Link to={'/'} className="goBackButton"><RiArrowGoBackFill size={50} /></Link> </button>

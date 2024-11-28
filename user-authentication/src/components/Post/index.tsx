@@ -1,6 +1,7 @@
 import { FC } from "react";
-import { FaUserCircle } from "react-icons/fa";
+import { FaTrashAlt, FaUserCircle } from "react-icons/fa";
 import styled from "styled-components";
+import { useUserContexto } from "../../context/contexto";
 
 const DivContainer = styled.div`
     display: flex;
@@ -16,6 +17,7 @@ const DivContainer = styled.div`
 `
 const DivHeader = styled.div`
     display: flex;
+    position: relative;
     width: 100%;
     align-items: center;
     gap: 0.5em;
@@ -29,6 +31,13 @@ const DivHeader = styled.div`
         font-size: 1.5em;
         border-bottom: 2px solid black;
         padding: 0;
+    }
+
+    .deleteIcon{
+        position: absolute;
+        right: 0;
+        top: 0;
+        cursor: pointer;
     }
     
 `
@@ -44,12 +53,43 @@ const DivText = styled.div`
 `
 
 
-const Post: FC<{username: string, description: string}> = ({username, description}) => {
+const Post: FC<{ username: string, description: string, user_id: number, post_id: number }> = ({ username, description, user_id, post_id }) => {
+
+    const { users } = useUserContexto();
+
+    const deletePost = async () => {
+        try {
+            const response = await fetch(`http://localhost:3030/posts`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ postId: post_id })
+            });
+
+            if (!response) {
+                throw new Error('Erro ao deletar post!');
+            }
+
+            if(response.status === 204){
+                console.log('POST DELETADO COM SUCESSO!');
+            }else{
+                const data = await response.json();
+                console.log('ERRO AO DELETAR POST: ' + data);
+            }
+
+        } catch (err) {
+            console.log('DEU ERRO AO DELETAR: ' + err);
+        }
+    }
+
+
     return (
         <DivContainer>
             <DivHeader>
-                <FaUserCircle className="iconePerfil" size={35}/>
+                <FaUserCircle className="iconePerfil" size={35} />
                 <h3>{username}</h3>
+                {users?.id == user_id ? <FaTrashAlt size={25} onClick={() => {deletePost(); window.location.reload()}} className="deleteIcon" /> : ''}
             </DivHeader>
 
             <DivText>

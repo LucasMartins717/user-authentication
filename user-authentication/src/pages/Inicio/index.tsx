@@ -46,11 +46,32 @@ const PostsSection = styled.section`
     display: flex;
     flex-wrap: wrap;
     margin-top: 1.5em;
+    margin-bottom: 1em;
+`
+const DisconnectButton = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #303030;
+    padding: 0.8em;
+    
+    button{
+        padding: 0.3em 1em;
+        background-color: #4b4b4b;
+        border: 1px solid black;
+        border-radius: 0.3em;
+        color: white;
+        cursor: pointer;
+    }
 `
 
 const Inicio: FC = () => {
 
-    const { isLogged, posts, users } = useUserContexto();
+    const { isLogged, posts, users, logoutUser } = useUserContexto();
 
     return (
         <MainContainer>
@@ -68,9 +89,19 @@ const Inicio: FC = () => {
 
             <PostsSection>
                 {posts.map((post) => (
-                    <Post key={post.id} username={post.username} description={post.description} />
+                    <Post
+                        key={post.id}
+                        username={post.username}
+                        description={post.description}
+                        user_id={post.user_id}
+                        post_id={post.id}
+                    />
                 ))}
             </PostsSection>
+
+            <DisconnectButton>
+                <button onClick={() => logoutUser()}>disconnect</button>
+            </DisconnectButton>
         </MainContainer>
     )
 }

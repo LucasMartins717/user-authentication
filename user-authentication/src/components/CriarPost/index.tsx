@@ -26,6 +26,7 @@ const DivContainer = styled.div`
     border-radius: 0.4em;
     padding-bottom: 0.4em;
     gap: 0.4em;
+    z-index: 999;
 
     h2{
         color: black
@@ -63,6 +64,7 @@ const BackgroundColor = styled.div`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    z-index: 998;
 `
 
 const CriarPost: FC = () => {
@@ -71,7 +73,6 @@ const CriarPost: FC = () => {
     const [painelAtivo, setPainelAtivo] = useState<boolean>(false);
     const [textDescription, setTextDescription] = useState<string>('');
     const [errorDescription, setErrorDescription] = useState<string>('');
-    const [temErro, setTemErro] = useState<boolean>(false);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
     const responsiveTextarea = () => {
@@ -83,26 +84,21 @@ const CriarPost: FC = () => {
 
     const publicarPost = async () => {
 
-        setTemErro(false);
         setErrorDescription('');
 
         if (!textDescription) {
             setErrorDescription('Escreva algo para publicar o post!')
-            setTemErro(true);
             return;
         } else {
             setErrorDescription('');
-            setTemErro(false);
         }
 
         const textCaracters = textDescription.split("");
         if (textCaracters.length > 1000) {
             setErrorDescription('O post não pode passar de 1000 letras!')
-            setTemErro(true);
             return;
         } else {
             setErrorDescription('')
-            setTemErro(false);
         }
 
         try {
@@ -122,6 +118,7 @@ const CriarPost: FC = () => {
             console.log('Post criado com sucesso!' + data);
             setTextDescription('');
             setPainelAtivo(false);
+            window.location.reload();
         } catch (err) {
             console.log('DEU RUIM: ' + err);
         }
@@ -134,7 +131,7 @@ const CriarPost: FC = () => {
             </ButtonCreate>
             {painelAtivo &&
                 <>
-                    <BackgroundColor onClick={() => {setPainelAtivo(false); setErrorDescription(''); setTemErro(false)}} />
+                    <BackgroundColor onClick={() => {setPainelAtivo(false); setErrorDescription('');}} />
                     <DivContainer>
                         <h2>Write the post...</h2>
                         <hr />
