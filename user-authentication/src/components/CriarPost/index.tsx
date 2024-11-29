@@ -120,7 +120,7 @@ const CriarPost: FC = () => {
             setPainelAtivo(false);
             window.location.reload();
         } catch (err) {
-            console.log('DEU RUIM: ' + err);
+            console.log('Não foi possivel criar o post: ' + err);
         }
     }
 

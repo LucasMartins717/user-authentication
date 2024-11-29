@@ -90,7 +90,7 @@ app.get('/posts', async (req, res) => {
         const result = await db.query('SELECT p.id, p.user_id, u.username, p.description, p.created_at FROM posts p JOIN users u ON p.user_id = u.id');
         res.status(200).json(result.rows);
     } catch (err) {
-        console.log("Deu erro: " + err);
+        console.log("Erro ao criar post: " + err);
         res.status(500).send('Erro ao criar o post!');
     }
 })
@@ -113,5 +113,5 @@ app.delete('/posts', async (req, res) => {
 })
 
 app.listen(3030, () => {
-    console.log("Server running, port 3030");
+    console.log("running, 3030");
 });

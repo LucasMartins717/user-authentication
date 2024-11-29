@@ -9,8 +9,16 @@ import CriarPost from "../../components/CriarPost";
 const MainContainer = styled.main`
     display: flex;
     flex-direction: column;
-    padding: 1.4em 1.5em;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 1.4em 1.5em 0em;
+    width: 100%;
+    max-width: 414px;
     height: 100%;
+    max-height: 896px;
+    background: linear-gradient(180deg, #404040, #303030);
 `
 const LoginSection = styled.section`
     display: flex;
@@ -44,15 +52,22 @@ const UsersSection = styled.section`
 `
 const PostsSection = styled.section`
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
+    flex: 1;
     margin-top: 1.5em;
-    margin-bottom: 1em;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    
+    &::-webkit-scrollbar {
+        display: none; 
+    }
 `
 const DisconnectButton = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    position: fixed;
+    position: relative;
     bottom: 0;
     left: 0;
     width: 100%;
@@ -66,6 +81,7 @@ const DisconnectButton = styled.div`
         border-radius: 0.3em;
         color: white;
         cursor: pointer;
+        font-size: 1.4em;
     }
 `
 
@@ -99,9 +115,9 @@ const Inicio: FC = () => {
                 ))}
             </PostsSection>
 
-            <DisconnectButton>
+            {isLogged && <DisconnectButton>
                 <button onClick={() => logoutUser()}>disconnect</button>
-            </DisconnectButton>
+            </DisconnectButton>}
         </MainContainer>
     )
 }

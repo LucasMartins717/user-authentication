@@ -23,6 +23,7 @@ export const ContextoProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const [posts, setPosts] = useState<interfaceContexto['posts']>([]);
     const [isLogged, setIsLogged] = useState<interfaceContexto['isLogged']>(false);
 
+    //VERIFICAR SE O USUARIO TA CONECTADO
     useEffect(() => {
         const storageUser = localStorage.getItem('userData');
         if (storageUser) {
@@ -32,6 +33,7 @@ export const ContextoProvider: FC<{ children: ReactNode }> = ({ children }) => {
         }
     }, [])
 
+    //PEGAR POSTS DO SERVIDOR
     useEffect(() => {
         const fetchPosts = async () => {
             try {
@@ -55,14 +57,12 @@ export const ContextoProvider: FC<{ children: ReactNode }> = ({ children }) => {
         setIsLogged(true);
         setUsers(userData);
         localStorage.setItem('userData', JSON.stringify(userData));
-        console.log('logado!')
     }
 
     const logoutUser = () => {
         setIsLogged(false);
         setUsers(null);
         localStorage.removeItem('userData');
-        console.log('deslogado!')
     }
 
     return (

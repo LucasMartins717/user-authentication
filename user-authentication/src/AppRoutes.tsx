@@ -8,14 +8,14 @@ import Login from "./pages/Login";
 
 const AppRoutes: FC = () => {
     return (
-        <BrowserRouter future={{v7_startTransition: true, v7_relativeSplatPath: true}}>
+        <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
             <ContextoProvider>
-                <Routes>
-                    <Route path="/" element={<Inicio />} />
-                    <Route path="/register" element={<Registro />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="*" element={<NaoEncontrada />} />
-                </Routes>
+                    <Routes>
+                        <Route path="/" element={<Inicio />} />
+                        <Route path="/register" element={<Registro />} />
+                        <Route path="/login" element={<Login />} />
+                        <Route path="*" element={<NaoEncontrada />} />
+                    </Routes>
             </ContextoProvider>
         </BrowserRouter>
     )

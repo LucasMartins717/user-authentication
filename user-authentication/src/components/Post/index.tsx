@@ -79,7 +79,7 @@ const Post: FC<{ username: string, description: string, user_id: number, post_id
             }
 
         } catch (err) {
-            console.log('DEU ERRO AO DELETAR: ' + err);
+            console.log('DEU ERRO AO DELETAR O POST: ' + err);
         }
     }
 

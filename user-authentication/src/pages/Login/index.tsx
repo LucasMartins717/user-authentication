@@ -13,8 +13,11 @@ const MainContainer = styled.main`
     left: 50%;
     transform: translate(-50%,-50%);
     width: 100%;
+    max-width: 414px;
     height: 100%;
+    max-height: 896px;
     padding: 1.4em 1.5em;
+    background: linear-gradient(180deg, #404040, #303030);
 `
 const DivGoBack = styled.div`
     position: absolute;
@@ -83,7 +86,7 @@ const DivFormulario = styled.div`
         border: none;
         border-bottom: 0.1em solid #C0392B;
         background: none;
-        font-size: clamp(1.1em, 1.1em + 1vw, 3em);
+        font-size: clamp(1.1em, 1.1em + 1vw, 1.5em);
         outline: none;
         color: #cf624f;
 
@@ -125,7 +128,7 @@ const DivButton = styled.div`
 
 const Login: FC = () => {
 
-    const {loginUser} = useUserContexto();
+    const { loginUser } = useUserContexto();
 
     const [inputUsername, setInputUsername] = useState<string>('');
     const [inputPassword, setInputPassword] = useState<string>('');
@@ -135,46 +138,43 @@ const Login: FC = () => {
 
     const loginValidation = async () => {
 
-        let temErro: boolean = false;
-
         if (!inputUsername) {
             setUsernameError('Por favor, preencha o nome de usuário!');
-            temErro = true;
+            return;
         } else {
             setUsernameError('');
         }
 
         if (!inputPassword) {
             setPasswordError('Digite uma senha!');
-            temErro = true;
+            return;
         } else {
             setPasswordError('');
         }
 
-        if (!temErro) {
-            try {
-                const response = await fetch('http://localhost:3030/login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ username: inputUsername, password: inputPassword }),
-                });
+        try {
+            const response = await fetch('http://localhost:3030/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username: inputUsername, password: inputPassword }),
+            });
 
-                const data = await response.json();
+            const data = await response.json();
 
-                if (response.ok) {
-                    loginUser({username: data.username, token: data.token});
-                    localStorage.setItem('token', data.token);
-                    navigate('/')
-                } else {
-                    setPasswordError(data.message);
-                    temErro = true;
-                }
-            } catch (err) {
-                console.error('Login failed: ' + err);
-                setPasswordError('Server connection error!');
+            if (response.ok) {
+                loginUser({ username: data.username, token: data.token });
+                localStorage.setItem('token', data.token);
+                navigate('/')
+            } else {
+                setPasswordError(data.message);
+                return;
             }
+        } catch (err) {
+            console.error('Login failed: ' + err);
+            setPasswordError('Server connection error!');
+
         }
     }
 
@@ -182,7 +182,7 @@ const Login: FC = () => {
         <MainContainer>
 
             <DivGoBack>
-            <button><Link to={'/'} className="goBackButton"><RiArrowGoBackFill size={50} /></Link> </button>
+                <button><Link to={'/'} className="goBackButton"><RiArrowGoBackFill size={50} /></Link> </button>
             </DivGoBack>
 
             <SectionRegister>

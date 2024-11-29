@@ -12,8 +12,11 @@ const MainContainer = styled.main`
     left: 50%;
     transform: translate(-50%,-50%);
     width: 100%;
+    max-width: 414px;
     height: 100%;
+    max-height: 896px;
     padding: 1.4em 1.5em;
+    background: linear-gradient(180deg, #404040, #303030);
 `
 const DivStatus = styled.div`
     display: flex;
@@ -100,7 +103,7 @@ const DivFormulario = styled.div`
         border: none;
         border-bottom: 0.1em solid #C0392B;
         background: none;
-        font-size: clamp(1.1em, 1.1em + 1vw, 3em);
+        font-size: clamp(1.1em, 1.1em + 1vw, 1.5em);
         outline: none;
         color: #cf624f;
 
@@ -117,7 +120,7 @@ const DivFormulario = styled.div`
         position: absolute;
         left: 0;
         top: -3px;
-        font-size: clamp(1.2em, 1.2em + 1.2vw, 3em);
+        font-size: clamp(1.2em, 1.2em + 1.2vw, 1.5em);
         font-weight: 500;
         transition: all 0.2s ease-in;
         pointer-events: none;
@@ -153,11 +156,9 @@ const Registro: FC = () => {
 
     const formValidation = async () => {
 
-        let temErro: boolean = false;
-
         if (!inputUsername) {
             setUsernameError('Por favor, preencha o nome de usuário!');
-            temErro = true;
+            return;
         } else {
             setUsernameError('');
 
@@ -175,43 +176,42 @@ const Registro: FC = () => {
 
                 if (!response.ok) {
                     setUsernameError(checkData.message);
-                    temErro = true;
+                    return;
                 } else {
                     setUsernameError('');
                 }
 
             } catch (err) {
                 console.log('Erro ao verificar nome de usuario: ' + err);
-                temErro = true;
                 setUsernameError('Erro ao verificar nome de usuario');
+                return;
             }
 
         }
 
         if (!inputPassword) {
             setPasswordError('Digite uma senha!');
-            temErro = true;
+            return;
         } else {
             setPasswordError('');
         }
 
         if (inputPassword !== inputConfirmPassword) {
             setConfirmPasswordError('As senhas não conferem!');
-            temErro = true;
+            return;
         } else {
             setConfirmPasswordError('');
         }
 
         if (inputPassword.length < 8) {
             setPasswordError('A senha tem que ter mais de 8 caracteres!');
-            temErro = true;
+            return;
         } else {
             setPasswordError('');
         }
 
-        if (!temErro) {
-            await registerUser();
-        }
+
+        await registerUser();
     }
 
     const registerUser = async () => {
