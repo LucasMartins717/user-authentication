@@ -11,7 +11,7 @@
 ***User-Authentication*** é um projeto simples para autenticação de usuários e criação de postagens. Ele foi criado com Node.js e possui uma integração com React e PostgreSQL. Ele utiliza Node.js para o back-end, PostgreSQL para armazenamento de dados, e React com TypeScript para o front-end.
 
 <br/>ㅤ<br/>
-![gifDemonstração](public/imagens/showGif3.gif)
+![gifDemonstração](/client/public/showGif3.gif)
 
 ## Funcionalidades
 
