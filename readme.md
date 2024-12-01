@@ -55,7 +55,7 @@
 • Clone o repositório:
 
 ```sh
-git clone https://github.com/LucasMartins717/repositorio
+git clone https://github.com/LucasMartins717/user-authentication
 ```
 
 ### • Configuração do Back-End (***server***):
