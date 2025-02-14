@@ -8,7 +8,7 @@
 
 ## Introdução
 
-***User-Authentication*** é um projeto simples para autenticação de usuários e criação de postagens. Ele foi criado com Node.js e possui uma integração com React e PostgreSQL. Ele utiliza Node.js para o back-end, PostgreSQL para armazenamento de dados, e React com TypeScript para o front-end.
+***User-Authentication*** é um projeto simples desenvolvido para aprender a criar um sistema de autenticação de usuários. Ele foi criado com Node.js e possui uma integração com React e PostgreSQL. Ele utiliza Node.js para o back-end, PostgreSQL para armazenamento de dados, e React com TypeScript para o front-end.
 
 <br/>ㅤ<br/>
 ![gifDemonstração](/client/public/showGif3.gif)
@@ -74,6 +74,24 @@ PG_PASSWORD=sua-senha
 PG_HOST=localhost
 PG_DATABASE=sua-db
 JWT_KEY=sua-chave-jwt
+```
+
+• Criação das tabelas no banco de dados PostgreSQL:
+
+```sh
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE posts (
+    id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL,
+    description TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
 ```
 
 • Inicie o servidor:
